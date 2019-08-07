@@ -116,7 +116,7 @@
                 "type": "packageTask",
                 "displayName": "Export Salesforce Contacts",
                 "description": "Exports Salesforce Contacts.",
-                "package": "yixiao001/salesforce-mailchimp@0.1.0",
+                "package": "yixiao001/salesforce-mailchimp@0.1.1",
                 "task": "export-contacts-from-salesforce",
                 "inputs": {
                     "clientId" : "${inputForm.outputs.clientId}",
@@ -133,7 +133,7 @@
                 "type": "packageTask",
                 "displayName": "Import Contacts To Mailchimp",
                 "description": "Import Contacts To Mailchimp.",
-                "package": "yixiao001/salesforce-mailchimp@0.1.0",
+                "package": "yixiao001/salesforce-mailchimp@0.1.1",
                 "task": "import-contacts-to-mailchimp",
                 "inputs": {
                     "contactsCsv" : "${exportContacts.outputs.contactsCsv}",
@@ -146,7 +146,7 @@
                 "type": "packageTask",
                 "displayName": "Add Tags To Mailchimp Contacts",
                 "description": "Adds Tags To Mailchimp Contacts.",
-                "package": "yixiao001/salesforce-mailchimp@0.1.0",
+                "package": "yixiao001/salesforce-mailchimp@0.1.1",
                 "task": "add-tags-to-mailchimp-contacts",
                 "inputs": {
                     "contactsCsv" : "${exportContacts.outputs.contactsCsv}",

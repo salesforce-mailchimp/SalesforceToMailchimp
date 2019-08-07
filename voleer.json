@@ -3,7 +3,7 @@
   "name": "salesforce-mailchimp",
   "displayName": "Salesforce Mailchimp",
   "description": "Tasks and templates for syncing from Salesforce to Mailchimp.",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "publisher": "yixiao001",
   "keywords": [
     "it",
