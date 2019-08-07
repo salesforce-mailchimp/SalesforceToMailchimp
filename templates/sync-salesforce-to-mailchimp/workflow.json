@@ -114,8 +114,8 @@
             {
                 "name": "exportContacts",
                 "type": "packageTask",
-                "displayName": "Prepare The Report",
-                "description": "Prepares the input Excel file.",
+                "displayName": "Export Salesforce Contacts",
+                "description": "Exports Salesforce Contacts.",
                 "package": "yixiao001/salesforce-mailchimp@0.1.0",
                 "task": "export-contacts-from-salesforce",
                 "inputs": {
@@ -131,8 +131,8 @@
             {
                 "name": "importContacts",
                 "type": "packageTask",
-                "displayName": "Prepare The Report",
-                "description": "Prepares the input Excel file.",
+                "displayName": "Import Contacts To Mailchimp",
+                "description": "Import Contacts To Mailchimp.",
                 "package": "yixiao001/salesforce-mailchimp@0.1.0",
                 "task": "import-contacts-to-mailchimp",
                 "inputs": {
@@ -144,8 +144,8 @@
             {
                 "name": "addTags",
                 "type": "packageTask",
-                "displayName": "Prepare The Report",
-                "description": "Prepares the input Excel file.",
+                "displayName": "Add Tags To Mailchimp Contacts",
+                "description": "Adds Tags To Mailchimp Contacts.",
                 "package": "yixiao001/salesforce-mailchimp@0.1.0",
                 "task": "add-tags-to-mailchimp-contacts",
                 "inputs": {
