@@ -32,12 +32,22 @@ $connectSalesForceParam = @{
     Password      = $password
     SecurityToken = $securityToken
 }
+
+Write-Information "Connecting to Salesforce."
 $salesForceSession = Connect-SalesForce @connectSalesForceParam
 $accessToken = $salesForceSession.AccessToken
 $instanceUrl = $salesForceSession.InstanceUrl
 
+if (!$salesForceSession) {
+    Write-Warning "Failed to connect to Salesforce."
+    exit
+}
+else {
+    Write-Information "The instance url is $instanceUrl."
+}
+
 # Encode the query
-$query = "Select name from contact where contact.Instance_Executed__C >= 10"
+#$query = "Select name from contact where contact.Instance_Executed__C >= 10"
 $encodedQuery = [uri]::EscapeDataString($query)
 
 # Retrieve the id of all the contacts who have a Voleer registration date
