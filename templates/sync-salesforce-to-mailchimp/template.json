@@ -1,7 +1,7 @@
 {
     "apiVersion": "v1",
     "name": "sync-salesforce-to-mailchimp",
-    "displayName": "Management of Office 365 Products",
-    "description": "Manages Office 365 products of users.",
+    "displayName": "Sync Salesforce To Mailchimp",
+    "description": "Syncs Salesforce contacts To Mailchimp.",
     "keywords": []
   }
