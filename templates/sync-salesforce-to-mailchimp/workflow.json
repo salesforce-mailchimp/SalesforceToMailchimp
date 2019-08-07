@@ -1,0 +1,160 @@
+{
+    "apiVersion": "v1",
+    "inputs": {},
+    "body": {
+        "name": "root",
+        "description": "Sequence of steps.",
+        "type": "sequence",
+        "items": [
+            {
+                "name": "inputForm",
+                "type": "form",
+                "displayName": "Inputs",
+                "description": "Collects input from the user.",
+                "components": [
+                    {
+                        "name": "instructions",
+                        "type": "paragraph",
+                        "description": "Instructions for something",
+                        "content": "Please provide the following input data"
+                    },
+                    {
+                        "name": "clientId",
+                        "type": "textInput",
+                        "displayName": "Report Header",
+                        "description": "Header of the security report",
+                        "required": true,
+                        "defaultValue": "3MVG9vtcvGoeH2bgg6SsXJ_3CckDQf3ihxGy0SicJt94mEUMU5g3Sd7jQdzcPaS4vnWbdDwzIiPjqzPkpnsTB",
+                        "label": "Please provide client id of the Salesforce App"
+                    },
+                    {
+                        "name": "clientSecret",
+                        "type": "textInput",
+                        "displayName": "Report Header",
+                        "description": "Header of the security report",
+                        "required": true,
+                        "defaultValue": "8CD6247EBAFDA47F2F77BF157E71A921E1796E9BEB991DFC2BBD96B37BD43F80",
+                        "label": "Please provide client secret of the Salesforce App"
+                    },
+                    {
+                        "name": "redirectUrl",
+                        "type": "textInput",
+                        "displayName": "Report Header",
+                        "description": "Header of the security report",
+                        "required": true,
+                        "defaultValue": "https://www.voleer.com",
+                        "label": "Please provide the redirect url of the Salesforce App"
+                    },
+
+                    {
+                        "name": "username",
+                        "type": "textInput",
+                        "displayName": "Report Header",
+                        "description": "Header of the security report",
+                        "required": true,
+                        "defaultValue": "fake@company.com",
+                        "label": "Please provide the username of the Salesforce account"
+                    },
+                    {
+                        "name": "password",
+                        "type": "textInput",
+                        "displayName": "Report Header",
+                        "description": "Header of the security report",
+                        "required": true,
+                        "defaultValue": "shen960915",
+                        "label": "Please provide the password of the Salesforce account"
+                    },
+                    {
+                        "name": "securityToken",
+                        "type": "textInput",
+                        "displayName": "Report Header",
+                        "description": "Header of the security report",
+                        "required": true,
+                        "defaultValue": "DSTBYJFsJx1NPMapz9puKyRV",
+                        "label": "Please provide the security token of the Salesforce account"
+                    },
+                    {
+                        "name": "query",
+                        "type": "textInput",
+                        "displayName": "Report Header",
+                        "description": "Header of the security report",
+                        "required": true,
+                        "defaultValue": "Select name from contact where contact.Instance_Executed__C >= 10",
+                        "label": "Please provide the query to execute in Salesforce"
+                    },
+                    {
+                        "name": "apiKey",
+                        "type": "textInput",
+                        "displayName": "Report Header",
+                        "description": "Header of the security report",
+                        "required": true,
+                        "defaultValue": "0e4174e27a5d05074049fdd631331680-us3",
+                        "label": "Please provide the apiKey of the Mailchimp account"
+                    },
+                    {
+                        "name": "listName",
+                        "type": "textInput",
+                        "displayName": "Report Header",
+                        "description": "Header of the security report",
+                        "required": true,
+                        "defaultValue": "Demo",
+                        "label": "Please provide the list name to export the contacts to"
+                    },
+                    {
+                        "name": "tagName",
+                        "type": "textInput",
+                        "displayName": "Report Header",
+                        "description": "Header of the security report",
+                        "required": true,
+                        "defaultValue": "10 Instances",
+                        "label": "Please provide the tag name to add the contacts"
+                    }
+                ]
+            },
+            {
+                "name": "exportContacts",
+                "type": "packageTask",
+                "displayName": "Prepare The Report",
+                "description": "Prepares the input Excel file.",
+                "package": "yixiao001/salesforce-mailchimp@0.1.0",
+                "task": "export-contacts-from-salesforce",
+                "inputs": {
+                    "clientId" : "${inputForm.outputs.clientId}",
+                    "clientSecret" : "${inputForm.outputs.clientSecret}",
+                    "redirectUrl" : "${inputForm.outputs.redirectUrl}",
+                    "username" : "${inputForm.outputs.username}",
+                    "password" : "${inputForm.outputs.password}",
+                    "securityToken" : "${inputForm.outputs.securityToken}",
+                    "query" : "${inputForm.outputs.query}"
+                }
+            },
+            {
+                "name": "importContacts",
+                "type": "packageTask",
+                "displayName": "Prepare The Report",
+                "description": "Prepares the input Excel file.",
+                "package": "yixiao001/salesforce-mailchimp@0.1.0",
+                "task": "import-contacts-to-mailchimp",
+                "inputs": {
+                    "contactsCsv" : "${exportContacts.outputs.contactsCsv}",
+                    "apiKey" : "${inputForm.outputs.apiKey}",
+                    "listName" : "${inputForm.outputs.listName}"
+                }
+            },
+            {
+                "name": "addTags",
+                "type": "packageTask",
+                "displayName": "Prepare The Report",
+                "description": "Prepares the input Excel file.",
+                "package": "yixiao001/salesforce-mailchimp@0.1.0",
+                "task": "add-tags-to-mailchimp-contacts",
+                "inputs": {
+                    "contactsCsv" : "${exportContacts.outputs.contactsCsv}",
+                    "apiKey" : "${inputForm.outputs.apiKey}",
+                    "listName" : "${inputForm.outputs.listName}",
+                    "tagName" : "${inputForm.outputs.tagName}"
+                }
+            }
+        ]
+    }
+}

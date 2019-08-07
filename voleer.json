@@ -1,0 +1,17 @@
+{
+  "apiVersion": "1.0.0",
+  "name": "salesforce-mailchimp",
+  "displayName": "Salesforce Mailchimp",
+  "description": "Tasks and templates for syncing from Salesforce to Mailchimp.",
+  "version": "0.1.0",
+  "publisher": "yixiao001",
+  "keywords": [
+    "it",
+    "automation"
+  ],
+  "license": "MIT",
+  "type": "powershell",
+  "powershell": {
+    "engine": "5.1"
+  }
+}
