@@ -2,8 +2,8 @@ param(
 
     $contactsCsv,
 
-    # Api Key from Mailchimp
-    $apiKey,
+    # The name of the Mailchimp credentials
+    $mailchimpCredentialsName,
 
     # The name of the list in Mailchimp to import the SalesForce contacts to
     $listName
@@ -12,21 +12,17 @@ param(
 # Import the necessary functions
 @(
     "MailchimpFunctions",
-    "HelperFunctions"
+    "HelperFunctions",
+    "Get-SavedCredentials"
 ) | ForEach-Object -Process {
     . "$($PSScriptRoot)\..\..\functions\$($_).ps1"
 }
 
-# Construct the base64 string for basic authentication in Mailchimp
-# Username can be any string
-$username = "LetsGoWarriors"
-$password = $apiKey
-$base64AuthInfo = [Convert]::ToBase64String([Text.Encoding]::ASCII.GetBytes(("{0}:{1}" -f $username, $password)))
+# Retrieve the saved Mailchimp credentials
+$mailchimpCredentialsObject = Get-SavedCredentials -CredentialsName $mailchimpCredentialsName -MailchimpCredentials
 
-# Get the data center from the api key
-# For example, the data center of the api key "abc123-us8" is "us8"
-$dataCenter = $apiKey.Substring($apiKey.IndexOf("-") + 1)
-$hostName = "https://$($dataCenter).api.mailchimp.com/3.0/"
+$base64AuthInfo = $mailchimpCredentialsObject.base64AuthInfo
+$hostName = $mailchimpCredentialsObject.base64AuthInfo
 
 # Retrieve the list to import the contacts
 Write-Information "Retrieving Mailchimp lists"

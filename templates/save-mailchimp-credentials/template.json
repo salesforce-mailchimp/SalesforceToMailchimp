@@ -1,0 +1,7 @@
+{
+    "apiVersion": "v1",
+    "name": "save-mailchimp-credentials",
+    "displayName": "Save Mailchimp Credentials",
+    "description": "Saves a set of Mailchimp credentials.",
+    "keywords": []
+}

@@ -1,13 +1,6 @@
 param(
-    # Information of SalesForce app
-    $clientId,
-    $clientSecret,
-    $redirectUrl,
-
-    # Credentials of SalesForce user
-    $username,
-    $password,
-    $securityToken,
+    # Name of the Salesforce credentials
+    $salesforceCredentialsName,
 
     # The query to retrieve Salesforce contacts
     $query
@@ -15,30 +8,31 @@ param(
 
 # Import the necessary functions
 @(
-    "SalesForceFunctions"
+    "SalesForceFunctions",
+    "Get-SavedCredentials"
 ) | ForEach-Object -Process {
     . "$($PSScriptRoot)\..\..\functions\$($_).ps1"
 }
 
-# Declare the path of the output csv file
-#$outputCsvFilePath = "C:\Users\yshen\Desktop\VoleerContactsFake.csv"
+# Retrieve the saved Salesforce credentials
+$salesforceCredentialsObject = Get-SavedCredentials -CredentialsName $salesforceCredentialsName -SalesforceCredentials
 
-# Obtain the access token and instance url using the credentials
+# Construct a hash table from the credentials object
 $connectSalesForceParam = @{
-    ClientId      = $clientId
-    ClientSecret  = $clientSecret
-    RedirectUrl   = $redirectUrl
-    Username      = $username
-    Password      = $password
-    SecurityToken = $securityToken
+    ClientId      = $salesforceCredentialsObject.clientId
+    ClientSecret  = $salesforceCredentialsObject.clientSecret
+    Username      = $salesforceCredentialsObject.username
+    Password      = $salesforceCredentialsObject.password
+    SecurityToken = $salesforceCredentialsObject.securityToken
 }
 
+# Obtain the access token and instance url using the credentials
 Write-Information "Connecting to Salesforce."
 $salesForceSession = Connect-SalesForce @connectSalesForceParam
 $accessToken = $salesForceSession.AccessToken
 $instanceUrl = $salesForceSession.InstanceUrl
 
-if (!$salesForceSession) {
+if ([String]::IsNullOrWhiteSpace($accessToken)) {
     Write-Warning "Failed to connect to Salesforce."
     exit
 }

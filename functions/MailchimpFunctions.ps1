@@ -247,3 +247,43 @@ function New-MailchimpTag {
     $response = Invoke-RestMethod @invokeRestMethodParams
     return $response.segments
 }
+
+function Search-MailchimpMember {
+    param(
+        $hostName,
+        $base64AuthInfo,
+        $listId
+    )
+
+    $invokeRestMethodParams = @{
+        Uri     = "$($hostName)/search-members"
+        Method  = "GET"
+        Headers = @{
+            Authorization = "Basic $($base64AuthInfo)"
+        }
+        Body    = @{
+            query = "instance"
+        }
+    }
+
+    $response = Invoke-RestMethod @invokeRestMethodParams
+    #return $response.segments
+}
+
+function Test-MailchimpCredentials {
+    param(
+        $base64AuthInfo,
+        $hostName
+    )
+
+    $invokeRestMethodParams = @{
+        Uri     = "$($hostName)/"
+        Method  = "GET"
+        Headers = @{
+            Authorization = "Basic $($base64AuthInfo)"
+        }
+    }
+
+    return Invoke-RestMethod @invokeRestMethodParams
+}
+

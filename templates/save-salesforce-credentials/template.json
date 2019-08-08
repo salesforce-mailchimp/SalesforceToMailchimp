@@ -1,0 +1,7 @@
+{
+    "apiVersion": "v1",
+    "name": "save-salesforce-credentials",
+    "displayName": "Save Salesforce Credentials",
+    "description": "Saves a set of Salesforce credentials",
+    "keywords": []
+}

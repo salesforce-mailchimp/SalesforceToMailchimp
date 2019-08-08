@@ -3,20 +3,10 @@ function Connect-SalesForce {
     param(
         $clientId,
         $clientSecret,
-        $redirectUrl,
         $username,
         $password,
         $securityToken
     )
-
-    if([String]::IsNullOrWhiteSpace($clientId)) {
-        $clientId = "3MVG9vtcvGoeH2bgg6SsXJ_3CckDQf3ihxGy0SicJt94mEUMU5g3Sd7jQdzcPaS4vnWbdDwzIiPjqzPkpnsTB"
-        $clientSecret = "8CD6247EBAFDA47F2F77BF157E71A921E1796E9BEB991DFC2BBD96B37BD43F80"
-        $redirectUrl = "https://www.voleer.com"
-        $username = "fake@company.com"
-        $password = "shen960915"
-        $securityToken = "DSTBYJFsJx1NPMapz9puKyRV"
-    }
 
     # prepare the request
     $invokeRestMethodParams = @{
@@ -25,7 +15,6 @@ function Connect-SalesForce {
         Body   = @{
             client_id     = $clientId
             client_secret = $clientSecret
-            redirect_uri  = $redirectUrl
             username      = $username
             password      = "$($password)$($securityToken)"
             grant_type    = "password"

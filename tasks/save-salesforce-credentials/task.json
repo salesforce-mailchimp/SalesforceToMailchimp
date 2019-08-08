@@ -1,0 +1,44 @@
+{
+    "apiVersion": "v1",
+    "displayName": "Save Azure AD Application Credentials",
+    "description": "Saves a set of Azure AD application credentials.",
+    "inputs": [
+        {
+            "name": "skipTask",
+            "displayName": "Skip Task?",
+            "description": "Selects whether this task should be skipped.",
+            "required": false
+        },
+        {
+            "name": "credentialName",
+            "displayName": "Credential Name",
+            "description": "The name of the credential to save.",
+            "required": true
+        },
+        {
+            "name": "applicationId",
+            "displayName": "Application ID",
+            "description": "The application ID.",
+            "required": true
+        },
+        {
+            "name": "clientSecret",
+            "displayName": "Client Secret",
+            "description": "The client secret.",
+            "required": true
+        },
+        {
+            "name": "tenantDomain",
+            "displayName": "Tenant Domain",
+            "description": "The tenant domain.",
+            "required": true
+        },
+        {
+            "name": "verifyCredentials",
+            "displayName": "Verify Credentials?",
+            "description": "Select whether to verify the provided credentials against Microsoft Graph.",
+            "required": false
+        }
+    ],
+    "outputs": []
+}
