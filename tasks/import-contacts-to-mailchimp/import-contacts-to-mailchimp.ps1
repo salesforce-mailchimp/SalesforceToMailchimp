@@ -53,7 +53,8 @@ $salesForceToMailchimpMap = @{
 #>
 
 # Declare the default mapping
-if ([String]::IsNullOrWhiteSpace($salesForceToMailchimpMappingsCsv)) {
+if ([String]::IsNullOrWhiteSpace($salesForceToMailchimpMappingsCsv) -or $salesForceToMailchimpMappingsCsv -eq "empty") {
+    Write-Information "No input provided. Using the default mapping."
     $salesForceToMailchimpMappingsCsv = @"
 sep=,
 "SalesForceName","MailchimpName","Type"
