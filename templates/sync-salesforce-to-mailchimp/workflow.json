@@ -21,33 +21,36 @@
                     {
                         "name": "salesforceCredentialsName",
                         "type": "textInput",
-                        "displayName": "Report Header",
-                        "description": "Header of the security report",
+                        "displayName": "Salesforce Credentials Name",
+                        "description": "Salesforce Credentials Name",
                         "required": true,
-                        "label": "Please provide the name of the saved Salesforce credentials"
+                        "label": "Please provide the name of the saved Salesforce credentials",
+                        "defaultValue" : "SalesforceYixiao"
                     },
                     {
                         "name": "mailchimpCredentialsName",
                         "type": "textInput",
-                        "displayName": "Report Header",
-                        "description": "Header of the security report",
+                        "displayName": "Mailchimp Credentials Name",
+                        "description": "Mailchimp Credentials Name",
                         "required": true,
-                        "label": "Please provide the name of the saved Mailchimp credentials"
+                        "label": "Please provide the name of the saved Mailchimp credentials",
+                        "defaultValue" : "MailchimpYixiao"
                     },
                     {
                         "name": "query",
                         "type": "textInput",
-                        "displayName": "Report Header",
-                        "description": "Header of the security report",
+                        "displayName": "Query",
+                        "description": "Query",
                         "required": true,
                         "label": "Please provide the query to execute in Salesforce",
-                        "placeHolder" : "SELECT Name FROM Contact WHERE Contact.Instance_Executed__C >= 10"
+                        "placeHolder" : "SELECT Name FROM Contact WHERE Contact.Instance_Executed__C >= 10",
+                        "defaultValue" : "SELECT Name FROM Contact WHERE Contact.Instance_Executed__C >= 10"
                     },
                     {
-                        "name": "salesForceToMailchimpMappingsCsv",
+                        "name": "salesforceToMailchimpMappingsCsv",
                         "type": "textInput",
-                        "displayName": "Report Header",
-                        "description": "Header of the security report",
+                        "displayName": "SalesForce To Mailchimp Mappings Csv",
+                        "description": "SalesForce To Mailchimp Mappings Csv",
                         "required": false,
                         "label": "Please provide the mapping of Salesforce and Mailchimp names.\nIf left empty, the default mappings will be used.",
                         "defaultValue": "sep=,\"SalesForceName\",\"MailchimpName\",\"Type\"\r\n\"FirstName\",\"First Name\",\"text\""
@@ -55,18 +58,20 @@
                     {
                         "name": "listName",
                         "type": "textInput",
-                        "displayName": "Report Header",
-                        "description": "Header of the security report",
+                        "displayName": "List Name",
+                        "description": "The name of the list",
                         "required": true,
-                        "label": "Please provide the list name to export the contacts to"
+                        "label": "Please provide the list name to export the contacts to",
+                        "defaultValue" : "Demo"
                     },
                     {
                         "name": "tagName",
                         "type": "textInput",
-                        "displayName": "Report Header",
-                        "description": "Header of the security report",
+                        "displayName": "Tag Name",
+                        "description": "The name of the tag",
                         "required": true,
-                        "label": "Please provide the tag name to add the contacts"
+                        "label": "Please provide the tag name to add the contacts",
+                        "defaultValue" : "Mon0129"
                     }
                 ]
             },
@@ -86,14 +91,14 @@
                 "name": "importContacts",
                 "type": "packageTask",
                 "displayName": "Import Contacts To Mailchimp",
-                "description": "Import Contacts To Mailchimp.",
-                "package": "yixiao001/salesforce-mailchimp@0.1.5",
+                "description": "Imports Contacts To Mailchimp.",
+                "package": "yixiao001/salesforce-mailchimp@0.1.6",
                 "task": "import-contacts-to-mailchimp",
                 "inputs": {
                     "contactsCsv" : "${exportContacts.outputs.contactsCsv}",
                     "mailchimpCredentialsName" : "${inputForm.outputs.mailchimpCredentialsName}",
                     "listName" : "${inputForm.outputs.listName}",
-                    "salesForceToMailchimpMappingsCsv" : "${inputForm.outputs.salesForceToMailchimpMappingsCsv}"
+                    "salesforceToMailchimpMappingsCsv" : "${inputForm.outputs.salesforceToMailchimpMappingsCsv}"
                 }
             },
             {
