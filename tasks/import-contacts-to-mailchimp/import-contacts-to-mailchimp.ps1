@@ -1,5 +1,5 @@
 param(
-
+    # A csv string containing the information of the contacts to import
     $contactsCsv,
 
     # The name of the Mailchimp credentials
@@ -20,9 +20,8 @@ param(
 
 # Retrieve the saved Mailchimp credentials
 $mailchimpCredentialsObject = Get-SavedCredentials -CredentialsName $mailchimpCredentialsName -MailchimpCredentials
-
 $base64AuthInfo = $mailchimpCredentialsObject.base64AuthInfo
-$hostName = $mailchimpCredentialsObject.base64AuthInfo
+$hostName = $mailchimpCredentialsObject.hostName
 
 # Retrieve the list to import the contacts
 Write-Information "Retrieving Mailchimp lists"
@@ -36,9 +35,7 @@ if (!$matchingList) {
 }
 $listId = $matchingList.id
 
-# Get the contacts information from the csv file
-#$csvFilePath = $outputCsvFilePath
-#$csvContent = Get-Content -Path $csvFilePath -Raw
+# Get the contacts information from the csv input
 $salesForceContacts = Convert-CsvStringToObject -CsvString $contactsCsv
 
 # Declare the variable mapping from SalesForce to Mailchimp

@@ -24,7 +24,7 @@ param(
 $mailchimpCredentialsObject = Get-SavedCredentials -CredentialsName $mailchimpCredentialsName -MailchimpCredentials
 
 $base64AuthInfo = $mailchimpCredentialsObject.base64AuthInfo
-$hostName = $mailchimpCredentialsObject.base64AuthInfo
+$hostName = $mailchimpCredentialsObject.hostName
 
 # Retrieve the list to import the contacts
 $mailchimpLists = Get-MailChimpList -HostName $hostName -Base64AuthInfo $base64AuthInfo
