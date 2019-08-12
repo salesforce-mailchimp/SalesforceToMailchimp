@@ -6,7 +6,10 @@ param(
     $mailchimpCredentialsName,
 
     # The name of the list in Mailchimp to import the SalesForce contacts to
-    $listName
+    $listName,
+
+    # The variable mapping between Salesforce and Mailchimp
+    $salesForceToMailchimpMappingsCsv
 )
 
 # Import the necessary functions
@@ -30,7 +33,7 @@ $matchingList = $mailchimpLists | Where-Object { $_.name -eq $listName }
 
 # Output an error if the list cannot be found
 if (!$matchingList) {
-    Write-Error "The list does not exist!"
+    Write-Error "The list '$($matchingList)' does not exist."
     exit
 }
 $listId = $matchingList.id
@@ -38,12 +41,32 @@ $listId = $matchingList.id
 # Get the contacts information from the csv input
 $salesForceContacts = Convert-CsvStringToObject -CsvString $contactsCsv
 
+<#
 # Declare the variable mapping from SalesForce to Mailchimp
 $salesForceToMailchimpMap = @{
     MailingCountry              = "Country"
     Voleer_Registration_Date__c = "Voleer Registration Date"
     Region__c                   = "Region"
+    FirstName                   = "First Name"
+    LastName                    = "Last Name"
 }
+#>
+
+# Declare the default mapping
+if ([String]::IsNullOrWhiteSpace($salesForceToMailchimpMappingsCsv)) {
+    $salesForceToMailchimpMappingsCsv = @"
+sep=,
+"SalesForceName","MailchimpName","Type"
+"MailingCountry","Country","text"
+"Voleer_Registration_Date__c","Voleer Registration Date","date"
+"Region__c","Region","text"
+"FirstName","First Name","text"
+"LastName","Last Name","text"
+"@
+}
+
+# Convert the mappings to objects
+$salesForceToMailchimpMappings = Convert-CsvStringToObject -CsvString $salesForceToMailchimpMappingsCsv
 
 # Prepare all the interest id, to add all of them to the user later
 Write-Information "Retrieving Mailchimp interests."
@@ -62,17 +85,15 @@ foreach ($field in $existingMergeFields) {
 }
 
 # Create the necessary merge fields if they don't exist
-foreach ($name in $salesForceToMailchimpMap.Values) {
-    if ([string]::IsNullOrWhiteSpace($nameToTag.$name)) {
+foreach ($mapping in $salesForceToMailchimpMappings) {
+    if ([string]::IsNullOrWhiteSpace($nameToTag.($mapping.MailchimpName))) {
+        $name = $mapping.MailchimpName
         $newMergeFieldParam = @{
             HostName       = $hostName
             Base64AuthInfo = $base64AuthInfo
             Name           = $name
-            NameToTag      = $nameToTag
             ListId         = $listId
-        }
-        if ($name -eq "Voleer Registration Date") {
-            $newMergeFieldParam.type = "date"
+            Type           = $mapping.Type
         }
 
         # Create the merge field
@@ -82,26 +103,25 @@ foreach ($name in $salesForceToMailchimpMap.Values) {
         # Update the name-to-tag hash table if the creation is successful
         if (![string]::IsNullOrWhiteSpace($newTag)) {
             $nameToTag.$name = $newTag
-        } else {
-            Write-Warning "Creation failed."
+        }
+        else {
+            Write-Warning "Failed to create merge field '$($name)'."
         }
     }
 }
 
 # Create or update the contacts
 foreach ($contact in $salesForceContacts) {
-    # Add basic fields
-    $mergeFields = [PSCustomObject]@{
-        FNAME = $contact.FirstName
-        LNAME = $contact.LastName
-    }
+    # Initialize merge field
+    $mergeFields = [PSCustomObject]@{ }
 
-    # Add the other necessary fields
-    foreach ($salesForceName in $salesForceToMailchimpMap.Keys) {
-        if ([string]::IsNullOrWhiteSpace($contact.($salesForceName))) {
+    # Add necessary fields
+    foreach ($mapping in $salesForceToMailchimpMappings) {
+        if ([string]::IsNullOrWhiteSpace($contact.($mapping.SalesForceName))) {
             continue
         }
-        $mailChimpName = $salesForceToMailchimpMap.($salesForceName)
+        $salesForceName = $mapping.SalesForceName
+        $mailChimpName = $mapping.MailchimpName
         $mergeFields | Add-Member -NotePropertyName $nameToTag.$mailChimpName -NotePropertyValue "$($contact.($salesForceName))" -Force
     }
 

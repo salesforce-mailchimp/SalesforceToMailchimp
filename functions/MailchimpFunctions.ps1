@@ -115,7 +115,6 @@ function New-MailChimpMergeField {
         $base64AuthInfo,
         $name,
         $type = "text",
-        $nameToTag,
         $listId
     )
 

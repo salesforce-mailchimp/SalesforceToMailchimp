@@ -40,7 +40,17 @@
                         "displayName": "Report Header",
                         "description": "Header of the security report",
                         "required": true,
-                        "label": "Please provide the query to execute in Salesforce"
+                        "label": "Please provide the query to execute in Salesforce",
+                        "placeHolder" : "SELECT Name FROM Contact WHERE Contact.Instance_Executed__C >= 10"
+                    },
+                    {
+                        "name": "salesForceToMailchimpMappingsCsv",
+                        "type": "textInput",
+                        "displayName": "Report Header",
+                        "description": "Header of the security report",
+                        "required": false,
+                        "label": "Please provide the mapping of Salesforce and Mailchimp names.\nIf left empty, the default mappings will be used.",
+                        "defaultValue": "sep=,\"SalesForceName\",\"MailchimpName\",\"Type\"\r\n\"FirstName\",\"First Name\",\"text\""
                     },
                     {
                         "name": "listName",
@@ -77,12 +87,13 @@
                 "type": "packageTask",
                 "displayName": "Import Contacts To Mailchimp",
                 "description": "Import Contacts To Mailchimp.",
-                "package": "yixiao001/salesforce-mailchimp@0.1.4",
+                "package": "yixiao001/salesforce-mailchimp@0.1.5",
                 "task": "import-contacts-to-mailchimp",
                 "inputs": {
                     "contactsCsv" : "${exportContacts.outputs.contactsCsv}",
                     "mailchimpCredentialsName" : "${inputForm.outputs.mailchimpCredentialsName}",
-                    "listName" : "${inputForm.outputs.listName}"
+                    "listName" : "${inputForm.outputs.listName}",
+                    "salesForceToMailchimpMappingsCsv" : "${inputForm.outputs.salesForceToMailchimpMappingsCsv}"
                 }
             },
             {
