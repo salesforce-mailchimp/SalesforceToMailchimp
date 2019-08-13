@@ -94,7 +94,7 @@
                 "type": "packageTask",
                 "displayName": "Save Salesforce Credentials",
                 "description": "Saves the Salesforce credentials.",
-                "package": "yixiao001/salesforce-mailchimp@0.1.3",
+                "package": "yixiao001/salesforce-mailchimp@0.1.7",
                 "task": "save-salesforce-credentials",
                 "inputs": {
                     "credentialName": "${inputForm.outputs.credentialName}",
