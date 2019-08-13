@@ -16,6 +16,10 @@ param(
 
 # Retrieve the saved Salesforce credentials
 $salesforceCredentialsObject = Get-SavedCredentials -CredentialsName $salesforceCredentialsName -SalesforceCredentials
+if (!$salesforceCredentialsObject) {
+    Write-Error "Failed to retrieve the Salesforce credentials."
+    exit
+}
 
 # Construct a hash table from the credentials object
 $connectSalesForceParam = @{
@@ -41,7 +45,6 @@ else {
 }
 
 # Encode the query
-#$query = "Select name from contact where contact.Instance_Executed__C >= 10"
 $encodedQuery = [uri]::EscapeDataString($query)
 
 # Retrieve the id of all the contacts who have a Voleer registration date
@@ -75,4 +78,5 @@ foreach ($contact in $contacts) {
 # Convert the contacts information to a csv string
 $contactsCsv = Convert-CsvObjectToString -CsvObject $allContacts
 
+# Set the task output
 $context.outputs.contactsCsv = $contactsCsv

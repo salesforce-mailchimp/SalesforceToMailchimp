@@ -17,20 +17,20 @@ Mailchimp Credentials Name
 Query
 
    - The query to select the contacts to export from Salesforce
-   - The query can be tested at this page https://na112.salesforce.com/_ui/common/apex/debug/ApexCSIPage
+   - The query can be tested at this page <https://na112.salesforce.com/_ui/common/apex/debug/ApexCSIPage>
    - Example query : SELECT Name FROM Contact WHERE Contact.Instance_Executed__C >= 10
 
 Salesforce To Mailchimp Mappings Csv
 
    - The variable mappings between Salesforce and Mailchimp in a csv string
    - Example csv (default) :
-   - sep=,
-"SalesForceName","MailchimpName","Type"
-"MailingCountry","Country","text"
-"Voleer_Registration_Date__c","Voleer Registration Date","date"
-"Region__c","Region","text"
-"FirstName","First Name","text"
-"LastName","Last Name","text"
+
+"SalesForceName","MailchimpName","Type"  
+"MailingCountry","Country","text"  
+"Voleer\_Registration\_Date\_\_c","Voleer Registration Date","date"  
+"Region\_\_c","Region","text"  
+"FirstName","First Name","text"  
+"LastName","Last Name","text"  
 
    - The default mappings will be used if this field is left empty or "empty" is provided.
 

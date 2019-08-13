@@ -9,7 +9,10 @@ param(
     $listName,
 
     # The variable mapping between Salesforce and Mailchimp
-    $salesForceToMailchimpMappingsCsv
+    $salesForceToMailchimpMappingsCsv,
+
+    # The name of the column in csv that correspond to email. Defaults to 'Email'
+    $emailColumnName = "Email"
 )
 
 # Import the necessary functions
@@ -23,6 +26,10 @@ param(
 
 # Retrieve the saved Mailchimp credentials
 $mailchimpCredentialsObject = Get-SavedCredentials -CredentialsName $mailchimpCredentialsName -MailchimpCredentials
+if (!$mailchimpCredentialsObject) {
+    Write-Error "Failed to retrieve the Mailchimp credentials."
+    exit
+}
 $base64AuthInfo = $mailchimpCredentialsObject.base64AuthInfo
 $hostName = $mailchimpCredentialsObject.hostName
 
@@ -54,7 +61,7 @@ $salesForceToMailchimpMap = @{
 
 # Declare the default mapping
 if ([String]::IsNullOrWhiteSpace($salesForceToMailchimpMappingsCsv) -or $salesForceToMailchimpMappingsCsv -eq "empty") {
-    Write-Information "No input provided. Using the default mapping."
+    Write-Information "No csv mapping provided. Using the default mapping."
     $salesForceToMailchimpMappingsCsv = @"
 sep=,
 "SalesForceName","MailchimpName","Type"
@@ -131,7 +138,7 @@ foreach ($contact in $salesForceContacts) {
         HostName       = $hostName
         Base64AuthInfo = $base64AuthInfo
         ListId         = $listId
-        EmailAddress   = $contact.Email
+        EmailAddress   = $contact.($emailColumnName)
         MergeFields    = $mergeFields
         Interests      = $interestObject
     }

@@ -48,12 +48,12 @@
                     },
                     {
                         "name": "salesforceToMailchimpMappingsCsv",
-                        "type": "textInput",
+                        "type": "textArea",
                         "displayName": "SalesForce To Mailchimp Mappings Csv",
                         "description": "SalesForce To Mailchimp Mappings Csv",
                         "required": false,
                         "label": "Please provide the mapping of Salesforce and Mailchimp names.\nIf left empty, the default mappings will be used.",
-                        "defaultValue": "sep=,\"SalesForceName\",\"MailchimpName\",\"Type\"\r\n\"FirstName\",\"First Name\",\"text\""
+                        "defaultValue": "\"SalesForceName\",\"MailchimpName\",\"Type\"\r\n\"FirstName\",\"First Name\",\"text\"\"LastName\",\"Last Name\",\"text\""
                     },
                     {
                         "name": "listName",
@@ -61,8 +61,7 @@
                         "displayName": "List Name",
                         "description": "The name of the list",
                         "required": true,
-                        "label": "Please provide the list name to export the contacts to",
-                        "defaultValue" : "Demo"
+                        "label": "Please provide the list name to export the contacts to"
                     },
                     {
                         "name": "tagName",
@@ -70,8 +69,7 @@
                         "displayName": "Tag Name",
                         "description": "The name of the tag",
                         "required": true,
-                        "label": "Please provide the tag name to add the contacts",
-                        "defaultValue" : "Mon0129"
+                        "label": "Please provide the tag name to add the contacts"
                     }
                 ]
             },
@@ -106,7 +104,7 @@
                 "type": "packageTask",
                 "displayName": "Add Tags To Mailchimp Contacts",
                 "description": "Adds Tags To Mailchimp Contacts.",
-                "package": "yixiao001/salesforce-mailchimp@0.1.4",
+                "package": "yixiao001/salesforce-mailchimp@0.1.6",
                 "task": "add-tags-to-mailchimp-contacts",
                 "inputs": {
                     "contactsCsv" : "${exportContacts.outputs.contactsCsv}",
